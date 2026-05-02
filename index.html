@@ -196,18 +196,18 @@
       btnText.textContent = 'Enviando...';
       spinner.classList.remove('hidden');
 
-      const formData = new FormData();
+      // CORREÇÃO AQUI: Mudamos para URLSearchParams para o Google entender perfeitamente
+      const formData = new URLSearchParams();
       formData.append('nome', document.getElementById('guest-name').value);
       formData.append('quantidade', document.getElementById('guests-count').value);
       formData.append('mensagem', document.getElementById('guest-message').value || '');
       formData.append('data_confirmacao', new Date().toLocaleString('pt-BR'));
 
       try {
-        // ADICIONADO: mode: 'no-cors' para liberar o bloqueio de segurança do navegador
         await fetch(GOOGLE_SCRIPT_URL, {
           method: 'POST',
           body: formData,
-          mode: 'no-cors'
+          mode: 'no-cors' // Mantém o no-cors para não ser bloqueado
         });
 
         document.getElementById('rsvp-form').classList.add('hidden');
